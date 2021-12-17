@@ -18,6 +18,7 @@ def f3(x):
 
 # task_3
 dic = {x: [f1(x), f2(x), f3(x)] for x in range(5, 90, 1)}
+print(dic)
 
 # task_4
 csv_columns = ['x', 'f1(x)', 'f2(x)', 'f3(x)']
