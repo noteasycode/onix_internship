@@ -57,10 +57,10 @@ class Triangle(Shape):
         return self.pos_x, self.pos_y
 
     def get_vertex(self):
-        pass
+        radius = (1 / (2 * math.sqrt(3))) * self.side
 
     def get_area(self):
-        return
+        return math.sqrt(3) / 4 * self.side ** 2
 
     def move(self, new_pos_x, new_pos_y):
         self.pos_x = new_pos_x
@@ -70,7 +70,9 @@ class Triangle(Shape):
 
 if __name__ == '__main__':
     result = Circle(0, 0, 3)
+    result_2 = Triangle(0, 0, 3)
     print(result.get_area())
     print(result.get_center())
     print(result.move(1, 1))
     print(result.get_center())
+    print(result_2.get_area())
