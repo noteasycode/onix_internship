@@ -1,76 +1,30 @@
-import math
+import sqlite3
 
 
-class Shape():
-    def __init__(self, pos_x, pos_y):
-        self.pos_x = pos_x
-        self.pos_y = pos_y
+conn = sqlite3.connect('cities.db')
+c = conn.cursor()
 
-    @classmethod
-    def get_distance(cls, figure_1, figure_2):
-        pass
-
-
-class Circle(Shape):
-    def __init__(self, pos_x, pos_y, radius):
-        super().__init__(pos_x, pos_y)
-        self.radius = radius
-
-    def get_center(self):
-        return self.pos_x, self.pos_y
-
-    def get_area(self):
-        return math.pi * self.radius ** 2
-
-    def move(self, new_pos_x, new_pos_y):
-        self.pos_x = new_pos_x
-        self.pos_y = new_pos_y
-        return self.pos_x, self.pos_y
+try:
+    c.execute("""CREATE TABLE cities (
+                country text,
+                city text,
+                city_id integer
+                )""")
+    conn.commit()
+except Exception as error:
+    print(error)
 
 
-class Square(Shape):
-    def __init__(self, pos_x, pos_y, side):
-        super().__init__(pos_x, pos_y)
-        self.side = side
-
-    def get_center(self):
-        return self.pos_x, self.pos_y
-
-    def get_vertex(self):
-        pass
-
-    def get_area(self):
-        return self.side ** 2
-
-    def move(self, new_pos_x, new_pos_y):
-        self.pos_x = new_pos_x
-        self.pos_y = new_pos_y
-        return self.pos_x, self.pos_y
+def add_new_city(country, city, city_id):
+    with conn:
+        try:
+            c.execute("INSERT INTO cities VALUES (?, ?, ?)", (
+                country, city, city_id))
+        except Exception as error:
+            print(error)
+        conn.commit()
 
 
-class Triangle(Shape):
-    def __init__(self, pos_x, pos_y, side):
-        super().__init__(pos_x, pos_y)
-        self.side = side
-
-    def get_center(self):
-        return self.pos_x, self.pos_y
-
-    def get_vertex(self):
-        pass
-
-    def get_area(self):
-        return
-
-    def move(self, new_pos_x, new_pos_y):
-        self.pos_x = new_pos_x
-        self.pos_y = new_pos_y
-        return self.pos_x, self.pos_y
-
-
-if __name__ == '__main__':
-    result = Circle(0, 0, 3)
-    print(result.get_area())
-    print(result.get_center())
-    print(result.move(1, 1))
-    print(result.get_center())
+if '__name__' == '__main__':
+    print(add_new_city('Ukraine', 'Bobrinets', 27200))
+    conn.close()
